@@ -19,11 +19,9 @@ impl Player {
 
         /* Generate random player*/
         roster.shuffle(&mut rng);
-        // println!("I shuffled my roster: {:?}", roster);
 
         // Takes random player as first afer shuffle
         let random_player: Player = roster[0].clone();
-        // println!("Random player: {:?}", random_player);
 
         /* Generate n player options, including correct player */
         let mut options: Vec<Player> = Vec::with_capacity(num_options);
@@ -34,7 +32,6 @@ impl Player {
 
         /* Shuffle again to mix in random player */
         options.shuffle(&mut rng);
-        // println!("I shuffled my options: {:?}", options);
 
         Solution {
             correct_player: random_player,
@@ -61,7 +58,7 @@ impl Player {
                 Ok(number) => number,
                 Err(_e) => return Err("Cannot parse jersey number entry in roster csv."),
             },
-            None => return Err("BCannot parse jersey number entry in roster csv."),
+            None => return Err("Cannot parse jersey number entry in roster csv."),
         };
 
         Ok(Player {

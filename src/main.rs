@@ -21,7 +21,7 @@ struct Config {
 
 impl Config {
     pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
-        // Rhe first value in the return value of env::args is the name of the program, so ignore
+        // The first value in the return value of env::args is the name of the program, so ignore
         args.next();
 
         let file_path = match args.next() {
@@ -64,16 +64,21 @@ fn main() {
     // Open the path in read-only mode, returns `io::Result<File>`, then pass
     // to a BufReader to create an iterator over each line
     let roster_iter = match File::open(path.as_path()) {
-        Err(why) => panic!("Couldn't open {}: {}", path.display(), why),
         Ok(file) => BufReader::new(file).lines(),
+        Err(why) => panic!("Couldn't open {}: {}", path.display(), why),
     };
 
     let mut roster: Vec<Player> = Vec::new();
+
     for player_line in roster_iter {
-        let player: Result<Player, &'static str> = Player::parse_player_line(player_line.unwrap());
-        if let Ok(..) = player {
-            roster.push(player.unwrap());
-        }
+        let player = match Player::parse_player_line(player_line.unwrap()) {
+            Ok(player) => player,
+            Err(why) => {
+                eprintln!("Problem parsing roster: {why}");
+                process::exit(1);
+            }
+        };
+        roster.push(player);
     }
 
     // Validate inputs
@@ -145,8 +150,8 @@ fn main() {
                 };
             }
             GameState::Active => {
-                if let Some(..) = guess_idx {
-                    if solution.option_list[guess_idx.unwrap()] == solution.correct_player {
+                if let Some(guess_idx) = guess_idx {
+                    if solution.option_list[guess_idx] == solution.correct_player {
                         println!(
                             "Correct! {} wears number {}\n",
                             solution.correct_player.name, solution.correct_player.number
