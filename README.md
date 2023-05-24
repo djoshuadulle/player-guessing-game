@@ -1,9 +1,10 @@
 # player-guessing-game
-A game to test your player jersey number skills. Displays a jersey number and player options for you to choose from.  
+A game to test your player jersey number recognition skills. Displays a jersey number and player options for you to choose from.  
+
 Quickstart (from top level directory): `cargo run ./atl-utd_roster.csv 3`  
 
 # Requirements
-Game requires a player roster, i.e. a CSV file of players names and jersey numbers. See the example `atl-utd_roster.csv`.  
+Game requires a player roster, i.e. a CSV file of players names and jersey numbers. See the example: `atl-utd_roster.csv`.  
 
 # Running the game
 There are two command line arguments:  
